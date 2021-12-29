@@ -44,6 +44,10 @@ public class TopicViewModel extends AndroidViewModel {
         mRepository.deleteTopic(topic);
     }
 
+    public void deleteTask(Task task) {
+        mRepository.deleteTask(task);
+    }
+
     public void update(Topic topic) {
         mRepository.update(topic);
     }

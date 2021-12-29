@@ -12,10 +12,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +27,7 @@ public class TopicDetailActivity extends AppCompatActivity {
     public static final String EXTRA_REPLY_ID = "com.android.example.roomwordssample.REPLY_ID";
     public static final int NEW_TASK_ACTIVITY_REQUEST_CODE = 1;
     public static final int UPDATE_TASK_ACTIVITY_REQUEST_CODE = 2;
+    public static final int DETAIL_TASK_ACTIVITY_REQUEST_CODE = 3;
 
     private TextView mTopicNameTxt;
     private TextView mTopicDesTxt;
@@ -39,8 +39,8 @@ public class TopicDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_topic_detail);
 
-        mTopicNameTxt = findViewById(R.id.topic_name_txt);
-        mTopicDesTxt = findViewById(R.id.topic_desc_txt);
+        mTopicNameTxt = findViewById(R.id.task_name_txt);
+        mTopicDesTxt = findViewById(R.id.task_desc_txt);
 
         RecyclerView recyclerView = findViewById(R.id.task_recycler);
         final TaskListAdapter adapter = new TaskListAdapter(this);
@@ -79,6 +79,47 @@ public class TopicDetailActivity extends AppCompatActivity {
             public void onChanged(@Nullable final List<Task> tasks) {
                 // Update the cached copy of the words in the adapter.
                 adapter.setTasks(tasks);
+            }
+        });
+
+
+        // Add the functionality to swipe items in the
+        // RecyclerView to delete the swiped item.
+        ItemTouchHelper helper = new ItemTouchHelper(
+                new ItemTouchHelper.SimpleCallback(0,
+                        ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+                    @Override
+                    // We are not implementing onMove() in this app.
+                    public boolean onMove(RecyclerView recyclerView,
+                                          RecyclerView.ViewHolder viewHolder,
+                                          RecyclerView.ViewHolder target) {
+                        return false;
+                    }
+
+                    @Override
+                    // When the use swipes a word,
+                    // delete that word from the database.
+                    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                        int position = viewHolder.getAdapterPosition();
+                        Task myTask = adapter.getTaskAtPosition(position);
+                        Toast.makeText(TopicDetailActivity.this,
+                                getString(R.string.delete_word_preamble) + " " +
+                                        myTask.getTask(), Toast.LENGTH_LONG).show();
+
+                        // Delete the word.
+                        mTopicViewModel.deleteTask(myTask);
+                    }
+                });
+        // Attach the item touch helper to the recycler view.
+        helper.attachToRecyclerView(recyclerView);
+
+
+        adapter.setOnItemClickListener(new TaskListAdapter.ClickListener()  {
+
+            @Override
+            public void onItemClick(View v, int position) {
+                Task task = adapter.getTaskAtPosition(position);
+                launchDetailTaskActivity(task);
             }
         });
 
@@ -124,5 +165,11 @@ public class TopicDetailActivity extends AppCompatActivity {
         Intent intent = new Intent(this, NewTaskActivity.class);
         intent.putExtra(EXTRA_DATA_UPDATE_TOPIC, topicId);
         startActivityForResult(intent, NEW_TASK_ACTIVITY_REQUEST_CODE);
+    }
+
+    public void launchDetailTaskActivity( Task task) {
+        Intent intent = new Intent(this, TaskDetailActivity.class);
+        intent.putExtra(EXTRA_DATA_UPDATE_TOPIC, task.getId());
+        startActivityForResult(intent, DETAIL_TASK_ACTIVITY_REQUEST_CODE);
     }
 }

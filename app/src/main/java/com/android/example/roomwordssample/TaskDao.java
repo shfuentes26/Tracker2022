@@ -20,7 +20,7 @@ public interface TaskDao {
     void deleteAll();
 
     @Delete
-    void deleteTopic(Task task);
+    void deleteTask(Task task);
 
     @Query("SELECT * from task_table LIMIT 1")
     Task[] getAnyTask();

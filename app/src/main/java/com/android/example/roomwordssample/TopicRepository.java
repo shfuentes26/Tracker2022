@@ -60,6 +60,11 @@ public class TopicRepository {
         new TopicRepository.deleteTopicAsyncTask(mTopicDao).execute(topic);
     }
 
+    // Must run off main thread
+    public void deleteTask(Task task) {
+        new TopicRepository.deleteTaskAsyncTask(mTaskDao).execute(task);
+    }
+
     // Static inner classes below here to run database interactions in the background.
 
     private static class getTopicAsyncTask extends AsyncTask<Topic, Void, Void> {
@@ -119,6 +124,7 @@ public class TopicRepository {
      */
     private static class deleteAllTopicsAsyncTask extends AsyncTask<Void, Void, Void> {
         private TopicDao mAsyncTaskDao;
+        private TaskDao mAsyncTaskTaskDao;
 
         deleteAllTopicsAsyncTask(TopicDao dao) {
             mAsyncTaskDao = dao;
@@ -127,6 +133,21 @@ public class TopicRepository {
         @Override
         protected Void doInBackground(Void... voids) {
             mAsyncTaskDao.deleteAll();
+            return null;
+        }
+    }
+
+    private static class deleteAllTasksAsyncTask extends AsyncTask<Void, Void, Void> {
+
+        private TaskDao mAsyncTaskTaskDao;
+
+        deleteAllTasksAsyncTask(TaskDao dao) {
+            mAsyncTaskTaskDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            mAsyncTaskTaskDao.deleteAll();
             return null;
         }
     }
@@ -144,6 +165,23 @@ public class TopicRepository {
         @Override
         protected Void doInBackground(final Topic... params) {
             mAsyncTaskDao.deleteTopic(params[0]);
+            return null;
+        }
+    }
+
+    /**
+     *  Deletes a single topic from the database.
+     */
+    private static class deleteTaskAsyncTask extends AsyncTask<Task, Void, Void> {
+        private TaskDao mAsyncTaskDao;
+
+        deleteTaskAsyncTask(TaskDao dao) {
+            mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(final Task... params) {
+            mAsyncTaskDao.deleteTask(params[0]);
             return null;
         }
     }

@@ -84,6 +84,10 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TopicV
         }
     }
 
+    public void setOnItemClickListener(TaskListAdapter.ClickListener clickListener) {
+        TaskListAdapter.clickListener = clickListener;
+    }
+
     public interface ClickListener {
         void onItemClick(View v, int position);
     }
