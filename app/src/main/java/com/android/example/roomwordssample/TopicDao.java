@@ -30,4 +30,7 @@ public interface TopicDao {
 
     @Update
     void update(Topic... topic);
+    //test git
+    @Query("SELECT * FROM topic_table WHERE topic = :topicId")
+    LiveData<List<Topic>> getTopic(int topicId);
 }

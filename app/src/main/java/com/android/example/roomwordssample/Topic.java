@@ -16,8 +16,13 @@ public class Topic {
     @ColumnInfo(name = "topic")
     private String mTopic;
 
+    @ColumnInfo(name = "desc")
+    private String description;
+
     public Topic(@NonNull String topic) {
+
         this.mTopic = topic;
+        this.description = "DescPrueba";
     }
 
     /*
@@ -31,6 +36,12 @@ public class Topic {
         this.mTopic = topic;
     }
 
+    @Ignore
+    public Topic(@NonNull String topic, String desc) {
+        this.mTopic = topic;
+        this.description = desc;
+    }
+
     public String getTopic() {
         return this.mTopic;
     }
@@ -39,6 +50,14 @@ public class Topic {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getDescription () {
+        return this.description;
+    }
+
+    public void setDescription(@NonNull String description) {
+        this.description = description;
     }
 }
 

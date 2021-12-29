@@ -21,6 +21,11 @@ public class TopicRepository {
         return mAllTopics;
     }
 
+    /** Added method for getting a single topic **/
+    public void getTopic(int id) {
+        new TopicRepository.getTopicAsyncTask(mTopicDao).execute(id);
+    }
+
     public void insert(Topic topic) {
         new TopicRepository.insertAsyncTask(mTopicDao).execute(topic);
     }
@@ -39,6 +44,25 @@ public class TopicRepository {
     }
 
     // Static inner classes below here to run database interactions in the background.
+
+    private static class getTopicAsyncTask extends AsyncTask<Topic, Void, Void> {
+        private TopicDao mAsyncTaskDao;
+
+        getTopicAsyncTask(TopicDao dao) {
+            mAsyncTaskDao = dao;
+        }
+        @Override
+        protected Void doInBackground(final Topic... params) {
+            Topic topic = params[0];
+            mAsyncTaskDao.getTopic(topic.getId());
+            return null;
+        }
+
+        public void execute(int id) {
+            mAsyncTaskDao.getTopic(id);
+        }
+    }
+
 
     /**
      * Inserts a topic into the database.

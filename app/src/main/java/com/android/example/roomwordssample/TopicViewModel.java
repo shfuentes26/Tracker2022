@@ -37,4 +37,8 @@ public class TopicViewModel extends AndroidViewModel {
     public void update(Topic topic) {
         mRepository.update(topic);
     }
+
+    public void getTopic(Topic topic) {
+        mRepository.getTopic(topic.getId());
+    }
 }

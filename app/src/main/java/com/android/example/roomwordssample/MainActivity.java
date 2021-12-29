@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Set up the WordViewModel.
         mTopicViewModel = ViewModelProviders.of(this).get(TopicViewModel.class);
-        // Get all the words from the database
+        // Get all the topics from the database
         // and associate them to the adapter.
         mTopicViewModel.getAllTopics().observe(this, new Observer<List<Topic>>() {
             @Override
@@ -198,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void launchUpdateTopicActivity( Topic topic) {
-        Intent intent = new Intent(this, NewWordActivity.class);
+        Intent intent = new Intent(this, TopicDetailActivity.class);
         intent.putExtra(EXTRA_DATA_UPDATE_TOPIC, topic.getTopic());
         intent.putExtra(EXTRA_DATA_ID, topic.getId());
         startActivityForResult(intent, UPDATE_TOPIC_ACTIVITY_REQUEST_CODE);
