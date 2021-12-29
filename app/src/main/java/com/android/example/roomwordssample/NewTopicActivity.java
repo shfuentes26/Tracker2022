@@ -14,15 +14,19 @@ import android.widget.EditText;
 public class NewTopicActivity extends AppCompatActivity {
 
     public static final String EXTRA_REPLY = "com.example.android.roomwordssample.REPLY";
+    public static final String EXTRA_REPLY_DESC = "com.example.android.roomwordssample.REPLY_DESC";
     public static final String EXTRA_REPLY_ID = "com.android.example.roomwordssample.REPLY_ID";
 
     private EditText mEditTopicView;
+    private EditText mEditDescTopicView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_topic);
         mEditTopicView = findViewById(R.id.edit_topic);
+        mEditDescTopicView = findViewById(R.id.edit_topic_desc);
+
         int id = -1 ;
 
         final Bundle extras = getIntent().getExtras();
@@ -50,10 +54,12 @@ public class NewTopicActivity extends AppCompatActivity {
                     // No word was entered, set the result accordingly.
                     setResult(RESULT_CANCELED, replyIntent);
                 } else {
-                    // Get the new word that the user entered.
-                    String word = mEditTopicView.getText().toString();
-                    // Put the new word in the extras for the reply Intent.
-                    replyIntent.putExtra(EXTRA_REPLY, word);
+                    // Get the new topic that the user entered.
+                    String topic = mEditTopicView.getText().toString();
+                    String desc = mEditDescTopicView.getText().toString();
+                    // Put the new topic in the extras for the reply Intent.
+                    replyIntent.putExtra(EXTRA_REPLY, topic);
+                    replyIntent.putExtra(EXTRA_REPLY_DESC, desc);
                     if (extras != null && extras.containsKey(EXTRA_DATA_ID)) {
                         int id = extras.getInt(EXTRA_DATA_ID, -1);
                         if (id != -1) {

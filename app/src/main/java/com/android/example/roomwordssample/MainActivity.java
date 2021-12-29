@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String EXTRA_DATA_UPDATE_WORD = "extra_word_to_be_updated";
     public static final String EXTRA_DATA_UPDATE_TOPIC = "extra_topic_to_be_updated";
     public static final String EXTRA_DATA_ID = "extra_data_id";
+    public static final String EXTRA_DATA_DESC = "extra_data_desc";
 
     //private WordViewModel mWordViewModel;
     private TopicViewModel mTopicViewModel;
@@ -177,13 +178,13 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == NEW_TOPIC_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-            Topic topic = new Topic(data.getStringExtra(NewWordActivity.EXTRA_REPLY));
+            Topic topic = new Topic(data.getStringExtra(NewTopicActivity.EXTRA_REPLY), data.getStringExtra(NewTopicActivity.EXTRA_REPLY_DESC));
             // Save the data.
             mTopicViewModel.insert(topic);
         } else if (requestCode == UPDATE_TOPIC_ACTIVITY_REQUEST_CODE
                 && resultCode == RESULT_OK) {
-            String topic_data = data.getStringExtra(NewWordActivity.EXTRA_REPLY);
-            int id = data.getIntExtra(NewWordActivity.EXTRA_REPLY_ID, -1);
+            String topic_data = data.getStringExtra(NewTopicActivity.EXTRA_REPLY);
+            int id = data.getIntExtra(NewTopicActivity.EXTRA_REPLY_ID, -1);
 
             if (id != -1) {
                 mTopicViewModel.update(new Topic(id, topic_data));
@@ -201,6 +202,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, TopicDetailActivity.class);
         intent.putExtra(EXTRA_DATA_UPDATE_TOPIC, topic.getTopic());
         intent.putExtra(EXTRA_DATA_ID, topic.getId());
+        intent.putExtra(EXTRA_DATA_DESC, topic.getDescription());
         startActivityForResult(intent, UPDATE_TOPIC_ACTIVITY_REQUEST_CODE);
     }
 }

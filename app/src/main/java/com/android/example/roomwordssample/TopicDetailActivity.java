@@ -2,6 +2,7 @@ package com.android.example.roomwordssample;
 
 import static com.android.example.roomwordssample.MainActivity.EXTRA_DATA_UPDATE_TOPIC;
 import static com.android.example.roomwordssample.MainActivity.EXTRA_DATA_ID;
+import static com.android.example.roomwordssample.MainActivity.EXTRA_DATA_DESC;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -31,10 +32,11 @@ public class TopicDetailActivity extends AppCompatActivity {
         // If we are passed content, fill it in for the user to edit.
         if (extras != null) {
             Integer id = extras.getInt(EXTRA_DATA_ID);
+            String description = extras.getString(EXTRA_DATA_DESC);
             String topic = extras.getString(EXTRA_DATA_UPDATE_TOPIC, "");
             if (!topic.isEmpty()) {
                 mTopicNameTxt.setText(topic);
-                mTopicDesTxt.setText("Desc " + id);
+                mTopicDesTxt.setText(description);
             }
         }
 
