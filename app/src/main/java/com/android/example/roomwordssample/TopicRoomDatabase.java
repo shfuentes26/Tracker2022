@@ -8,10 +8,11 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
-@Database(entities = {Topic.class}, version = 2, exportSchema = false)
+@Database(entities = {Topic.class, Task.class}, version = 3, exportSchema = false)
 public abstract class TopicRoomDatabase extends RoomDatabase {
 
     public abstract TopicDao topicDao();
+    public abstract TaskDao taskDao();
 
     private static TopicRoomDatabase INSTANCE;
 
@@ -49,13 +50,16 @@ public abstract class TopicRoomDatabase extends RoomDatabase {
     private static class PopulateDbAsync extends AsyncTask<Void, Void, Void> {
 
         private final TopicDao mDao;
+        private final TaskDao mTaskDao;
 
         // Initial data set
         private static String [] topics = {"Java", "Android", "iOS", "Algorithms", "AWS",
                 "Kotlin", "Swift"};
+        private static String [] tasks = {"Task1", "Task2",};
 
         PopulateDbAsync(TopicRoomDatabase db) {
             mDao = db.topicDao();
+            mTaskDao = db.taskDao();
         }
 
         @Override
@@ -65,6 +69,12 @@ public abstract class TopicRoomDatabase extends RoomDatabase {
                 for (int i = 0; i <= topics.length - 1; i++) {
                     Topic topic = new Topic(topics[i]);
                     mDao.insert(topic);
+                }
+            }
+            if (mTaskDao.getAnyTask().length < 1) {
+                for (int i = 0; i <= tasks.length - 1; i++) {
+                    Task task = new Task(tasks[i]);
+                    mTaskDao.insert(task);
                 }
             }
             return null;

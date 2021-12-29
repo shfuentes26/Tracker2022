@@ -23,15 +23,15 @@ public interface TaskDao {
     void deleteTopic(Task task);
 
     @Query("SELECT * from task_table LIMIT 1")
-    Topic[] getAnyTask();
+    Task[] getAnyTask();
 
     @Query("SELECT * from task_table ORDER BY task ASC")
-    LiveData<List<Topic>> getAllTasks();
+    LiveData<List<Task>> getAllTasks();
 
     @Update
     void update(Task... task);
 
     @Query("SELECT * FROM task_table WHERE task = :taskId")
-    LiveData<List<Topic>> getTask(int taskId);
+    LiveData<List<Task>> getTask(int taskId);
 
 }

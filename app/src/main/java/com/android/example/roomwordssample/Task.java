@@ -19,10 +19,9 @@ public class Task {
     @ColumnInfo(name = "desc")
     private String description;
 
-    public Task(@NonNull String task, String desc) {
-
+    public Task(@NonNull String task) {
         this.mTask = task;
-        this.description = desc;
+        this.description = "desc";
     }
 
     /*
@@ -38,6 +37,10 @@ public class Task {
 
     public String getTask() {
         return this.mTask;
+    }
+
+    public void setTask(String task) {
+        this.mTask = task;
     }
 
     public int getId() {return id;}

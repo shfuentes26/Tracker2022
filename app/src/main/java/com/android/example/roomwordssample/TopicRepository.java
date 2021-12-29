@@ -9,12 +9,21 @@ import java.util.List;
 public class TopicRepository {
 
     private TopicDao mTopicDao;
+    private TaskDao mTaskDao;
     private LiveData<List<Topic>> mAllTopics;
+    private LiveData<List<Task>> mAllTasks;
 
     TopicRepository(Application application) {
         TopicRoomDatabase db = TopicRoomDatabase.getDatabase(application);
         mTopicDao = db.topicDao();
+        mTaskDao = db.taskDao();
         mAllTopics = mTopicDao.getAllTopics();
+        mAllTasks = mTaskDao.getAllTasks();
+    }
+
+
+    LiveData<List<Task>>getAllTasks(){
+        return mAllTasks;
     }
 
     LiveData<List<Topic>>getAllTopics(){

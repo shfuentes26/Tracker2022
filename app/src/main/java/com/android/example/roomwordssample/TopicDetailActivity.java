@@ -10,6 +10,8 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -39,6 +41,11 @@ public class TopicDetailActivity extends AppCompatActivity {
         mTopicNameTxt = findViewById(R.id.topic_name_txt);
         mTopicDesTxt = findViewById(R.id.topic_desc_txt);
 
+        RecyclerView recyclerView = findViewById(R.id.task_recycler);
+        final TaskListAdapter adapter = new TaskListAdapter(this);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
 
         final Bundle extras = getIntent().getExtras();
         // If we are passed content, fill it in for the user to edit.
@@ -64,15 +71,15 @@ public class TopicDetailActivity extends AppCompatActivity {
 
         // Set up the WordViewModel.
         mTopicViewModel = ViewModelProviders.of(this).get(TopicViewModel.class);
-
-        //TODO: Obtener referencia de recyclerview
-        /**mTopicViewModel.getTopic().observe(this, new Observer<List<Topic>>() {
+        // Get all the topics from the database
+        // and associate them to the adapter.
+        mTopicViewModel.getAllTasks().observe(this, new Observer<List<Task>>() {
             @Override
-            public void onChanged(@Nullable final List<Topic> topics) {
+            public void onChanged(@Nullable final List<Task> tasks) {
                 // Update the cached copy of the words in the adapter.
-                //adapter.setTopics(topics);
+                adapter.setTasks(tasks);
             }
-        });**/
+        });
 
 
 
