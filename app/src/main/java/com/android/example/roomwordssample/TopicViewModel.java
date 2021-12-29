@@ -29,7 +29,11 @@ public class TopicViewModel extends AndroidViewModel {
     }
 
     public void insert(Topic topic) {
-        mRepository.insert(topic);
+        mRepository.insertTopic(topic);
+    }
+
+    public void insertTask(Task task) {
+        mRepository.insertTask(task);
     }
 
     public void deleteAll() {
@@ -42,6 +46,10 @@ public class TopicViewModel extends AndroidViewModel {
 
     public void update(Topic topic) {
         mRepository.update(topic);
+    }
+
+    public void updateTask(Task task) {
+        mRepository.updateTask(task);
     }
 
     public void getTopic(Topic topic) {

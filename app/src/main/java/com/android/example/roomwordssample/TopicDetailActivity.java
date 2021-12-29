@@ -26,7 +26,8 @@ public class TopicDetailActivity extends AppCompatActivity {
     public static final String EXTRA_REPLY = "com.example.android.roomwordssample.REPLY";
     public static final String EXTRA_REPLY_DESC = "com.example.android.roomwordssample.REPLY_DESC";
     public static final String EXTRA_REPLY_ID = "com.android.example.roomwordssample.REPLY_ID";
-    public static final int CREATE_TASK_ACTIVITY_REQUEST_CODE = 1;
+    public static final int NEW_TASK_ACTIVITY_REQUEST_CODE = 1;
+    public static final int UPDATE_TASK_ACTIVITY_REQUEST_CODE = 2;
 
     private TextView mTopicNameTxt;
     private TextView mTopicDesTxt;
@@ -85,9 +86,43 @@ public class TopicDetailActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * When the user enters a new word in the NewWordActivity,
+     * that activity returns the result to this activity.
+     * If the user entered a new word, save it in the database.
+
+     * @param requestCode ID for the request
+     * @param resultCode indicates success or failure
+     * @param data The Intent sent back from the NewWordActivity,
+     *             which includes the word that the user entered
+     */
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == NEW_TASK_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
+            Task task = new Task(data.getStringExtra(NewTaskActivity.EXTRA_REPLY_TASK));
+            // Save the data.
+            mTopicViewModel.insertTask(task);
+        } else if (requestCode == UPDATE_TASK_ACTIVITY_REQUEST_CODE
+                && resultCode == RESULT_OK) {
+            String task_data = data.getStringExtra(NewTaskActivity.EXTRA_REPLY_TASK);
+            int id = data.getIntExtra(NewTaskActivity.EXTRA_REPLY_TASK_ID, -1);
+
+            if (id != -1) {
+                mTopicViewModel.updateTask(new Task(id, task_data));
+            } else {
+                Toast.makeText(this, R.string.unable_to_update,
+                        Toast.LENGTH_LONG).show();
+            }
+        } else {
+            Toast.makeText(
+                    this, "Task not saved", Toast.LENGTH_LONG).show();
+        }
+    }
+
     public void launchCreateTaskActivity( int topicId) {
         Intent intent = new Intent(this, NewTaskActivity.class);
         intent.putExtra(EXTRA_DATA_UPDATE_TOPIC, topicId);
-        startActivityForResult(intent, CREATE_TASK_ACTIVITY_REQUEST_CODE);
+        startActivityForResult(intent, NEW_TASK_ACTIVITY_REQUEST_CODE);
     }
 }

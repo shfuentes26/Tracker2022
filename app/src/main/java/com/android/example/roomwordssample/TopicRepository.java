@@ -35,12 +35,20 @@ public class TopicRepository {
         new TopicRepository.getTopicAsyncTask(mTopicDao).execute(id);
     }
 
-    public void insert(Topic topic) {
-        new TopicRepository.insertAsyncTask(mTopicDao).execute(topic);
+    public void insertTopic(Topic topic) {
+        new TopicRepository.insertTopicAsyncTask(mTopicDao).execute(topic);
+    }
+
+    public void insertTask(Task task) {
+        new TopicRepository.insertTaskAsyncTask(mTaskDao).execute(task);
     }
 
     public void update(Topic topic)  {
-        new TopicRepository.updateTopicAsyncTask(mTopicDao).execute(topic);
+        new TopicRepository.updateTopicAsyncTopic(mTopicDao).execute(topic);
+    }
+
+    public void updateTask(Task task)  {
+        new TopicRepository.updateTaskAsyncTask(mTaskDao).execute(task);
     }
 
     public void deleteAll()  {
@@ -76,16 +84,31 @@ public class TopicRepository {
     /**
      * Inserts a topic into the database.
      */
-    private static class insertAsyncTask extends AsyncTask<Topic, Void, Void> {
+    private static class insertTopicAsyncTask extends AsyncTask<Topic, Void, Void> {
 
-        private TopicDao mAsyncTaskDao;
+        private TopicDao mAsyncDao;
 
-        insertAsyncTask(TopicDao dao) {
-            mAsyncTaskDao = dao;
+        insertTopicAsyncTask(TopicDao dao) {
+            mAsyncDao = dao;
         }
 
         @Override
         protected Void doInBackground(final Topic... params) {
+            mAsyncDao.insert(params[0]);
+            return null;
+        }
+    }
+
+    private static class insertTaskAsyncTask extends AsyncTask<Task, Void, Void> {
+
+        private TaskDao mAsyncTaskDao;
+
+        insertTaskAsyncTask(TaskDao dao) {
+            mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(final Task... params) {
             mAsyncTaskDao.insert(params[0]);
             return null;
         }
@@ -128,15 +151,29 @@ public class TopicRepository {
     /**
      *  Updates a topic in the database.
      */
-    private static class updateTopicAsyncTask extends AsyncTask<Topic, Void, Void> {
-        private TopicDao mAsyncTaskDao;
+    private static class updateTopicAsyncTopic extends AsyncTask<Topic, Void, Void> {
+        private TopicDao mAsyncTopicDao;
 
-        updateTopicAsyncTask(TopicDao dao) {
-            mAsyncTaskDao = dao;
+        updateTopicAsyncTopic(TopicDao dao) {
+            mAsyncTopicDao = dao;
         }
 
         @Override
         protected Void doInBackground(final Topic... params) {
+            mAsyncTopicDao.update(params[0]);
+            return null;
+        }
+    }
+
+    private static class updateTaskAsyncTask extends AsyncTask<Task, Void, Void> {
+        private TaskDao mAsyncTaskDao;
+
+        updateTaskAsyncTask(TaskDao dao) {
+            mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(final Task... params) {
             mAsyncTaskDao.update(params[0]);
             return null;
         }

@@ -9,6 +9,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name="com.android.example.roomwordssample.TaskDetailActivity"
+            android:exported="false" />
+        <activity
             android:name="com.android.example.roomwordssample.NewTaskActivity"
             android:exported="false" />
         <activity
