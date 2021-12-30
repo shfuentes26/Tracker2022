@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Floating action button setup
-        FloatingActionButton fab = findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab_task);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

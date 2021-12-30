@@ -6,6 +6,7 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -63,7 +64,8 @@ public class TopicDetailActivity extends AppCompatActivity {
             }
         }
         //button to create a task for the topic, it redirects to the NewTaskActivity
-        final Button button = findViewById(R.id.button_add_task);
+        //final Button button = findViewById(R.id.button_add_task);
+        FloatingActionButton button = findViewById(R.id.fab_task);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Toast.makeText(TopicDetailActivity.this,
