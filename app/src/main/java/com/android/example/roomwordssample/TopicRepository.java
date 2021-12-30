@@ -18,11 +18,12 @@ public class TopicRepository {
         mTopicDao = db.topicDao();
         mTaskDao = db.taskDao();
         mAllTopics = mTopicDao.getAllTopics();
-        mAllTasks = mTaskDao.getAllTasks();
+
     }
 
 
-    LiveData<List<Task>>getAllTasks(){
+    LiveData<List<Task>>getAllTasks(int topicId){
+        mAllTasks = mTaskDao.getAllTasks(topicId);
         return mAllTasks;
     }
 

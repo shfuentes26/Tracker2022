@@ -17,10 +17,11 @@ public class TopicViewModel extends AndroidViewModel {
         super(application);
         mRepository = new TopicRepository(application);
         mAllTopics = mRepository.getAllTopics();
-        mAllTasks = mRepository.getAllTasks();
+        //mAllTasks = mRepository.getAllTasks(0);
     }
 
-    LiveData<List<Task>> getAllTasks() {
+    LiveData<List<Task>> getAllTasks(int topicId) {
+        mAllTasks = mRepository.getAllTasks(topicId);
         return mAllTasks;
     }
 

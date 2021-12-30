@@ -1,8 +1,6 @@
 package com.android.example.roomwordssample;
 
 import static com.android.example.roomwordssample.MainActivity.EXTRA_DATA_UPDATE_TOPIC;
-import static com.android.example.roomwordssample.MainActivity.EXTRA_DATA_ID;
-import static com.android.example.roomwordssample.MainActivity.EXTRA_DATA_DESC;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -29,6 +27,11 @@ public class TopicDetailActivity extends AppCompatActivity {
     public static final int UPDATE_TASK_ACTIVITY_REQUEST_CODE = 2;
     public static final int DETAIL_TASK_ACTIVITY_REQUEST_CODE = 3;
 
+    public static final String EXTRA_DATA_ID = "extra_data_id";
+    public static final String EXTRA_DATA_DESC = "extra_data_desc";
+    public static final String EXTRA_DATA_NAME = "extra_data_name";
+    public static final String EXTRA_DATA_TOPIC_ID = "extra_data_topic_id";
+
     private TextView mTopicNameTxt;
     private TextView mTopicDesTxt;
     private TopicViewModel mTopicViewModel;
@@ -39,8 +42,8 @@ public class TopicDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_topic_detail);
 
-        mTopicNameTxt = findViewById(R.id.task_name_txt);
-        mTopicDesTxt = findViewById(R.id.task_desc_txt);
+        mTopicNameTxt = findViewById(R.id.topic_name_txt);
+        mTopicDesTxt = findViewById(R.id.topic_desc_txt);
 
         RecyclerView recyclerView = findViewById(R.id.task_recycler);
         final TaskListAdapter adapter = new TaskListAdapter(this);
@@ -72,9 +75,9 @@ public class TopicDetailActivity extends AppCompatActivity {
 
         // Set up the WordViewModel.
         mTopicViewModel = ViewModelProviders.of(this).get(TopicViewModel.class);
-        // Get all the topics from the database
+        // Get all the task from the database with the related topicId
         // and associate them to the adapter.
-        mTopicViewModel.getAllTasks().observe(this, new Observer<List<Task>>() {
+        mTopicViewModel.getAllTasks(id).observe(this, new Observer<List<Task>>() {
             @Override
             public void onChanged(@Nullable final List<Task> tasks) {
                 // Update the cached copy of the words in the adapter.
@@ -141,7 +144,7 @@ public class TopicDetailActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == NEW_TASK_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-            Task task = new Task(data.getStringExtra(NewTaskActivity.EXTRA_REPLY_TASK));
+            Task task = new Task(data.getStringExtra(NewTaskActivity.EXTRA_REPLY_TASK),data.getStringExtra(NewTaskActivity.EXTRA_REPLY_TASK_DESC), id);
             // Save the data.
             mTopicViewModel.insertTask(task);
         } else if (requestCode == UPDATE_TASK_ACTIVITY_REQUEST_CODE
@@ -163,13 +166,15 @@ public class TopicDetailActivity extends AppCompatActivity {
 
     public void launchCreateTaskActivity( int topicId) {
         Intent intent = new Intent(this, NewTaskActivity.class);
-        intent.putExtra(EXTRA_DATA_UPDATE_TOPIC, topicId);
+        intent.putExtra(EXTRA_DATA_TOPIC_ID, topicId);
         startActivityForResult(intent, NEW_TASK_ACTIVITY_REQUEST_CODE);
     }
 
     public void launchDetailTaskActivity( Task task) {
         Intent intent = new Intent(this, TaskDetailActivity.class);
-        intent.putExtra(EXTRA_DATA_UPDATE_TOPIC, task.getId());
+        intent.putExtra(EXTRA_DATA_ID, task.getId());
+        intent.putExtra(EXTRA_DATA_DESC, task.getDescription());
+        intent.putExtra(EXTRA_DATA_NAME, task.getTask());
         startActivityForResult(intent, DETAIL_TASK_ACTIVITY_REQUEST_CODE);
     }
 }

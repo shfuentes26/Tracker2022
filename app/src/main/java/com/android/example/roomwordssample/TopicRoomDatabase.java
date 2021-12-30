@@ -8,7 +8,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
-@Database(entities = {Topic.class, Task.class}, version = 3, exportSchema = false)
+@Database(entities = {Topic.class, Task.class}, version = 4, exportSchema = false)
 public abstract class TopicRoomDatabase extends RoomDatabase {
 
     public abstract TopicDao topicDao();
@@ -73,7 +73,7 @@ public abstract class TopicRoomDatabase extends RoomDatabase {
             }
             if (mTaskDao.getAnyTask().length < 1) {
                 for (int i = 0; i <= tasks.length - 1; i++) {
-                    Task task = new Task(tasks[i]);
+                    Task task = new Task(tasks[i], "carga inicial", 1);
                     mTaskDao.insert(task);
                 }
             }

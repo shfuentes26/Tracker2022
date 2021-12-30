@@ -19,9 +19,12 @@ public class Task {
     @ColumnInfo(name = "desc")
     private String description;
 
+    @ColumnInfo(name = "topicId")
+    private int topicId;
+
+
     public Task(@NonNull String task) {
         this.mTask = task;
-        this.description = "desc";
     }
 
     /*
@@ -33,6 +36,12 @@ public class Task {
     public Task(int id, @NonNull String task) {
         this.id = id;
         this.mTask = task;
+    }
+    @Ignore
+    public Task(@NonNull String task, String desc, int topicId) {
+        this.description = desc;
+        this.mTask = task;
+        this.topicId = topicId;
     }
 
     public String getTask() {
@@ -55,6 +64,14 @@ public class Task {
 
     public void setDescription(@NonNull String description) {
         this.description = description;
+    }
+
+    public int getTopicId() {
+        return topicId;
+    }
+
+    public void setTopicId(int topicId) {
+        this.topicId = topicId;
     }
 
 

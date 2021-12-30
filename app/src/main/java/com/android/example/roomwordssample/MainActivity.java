@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
     public static final int NEW_TOPIC_ACTIVITY_REQUEST_CODE = 1;
     public static final int UPDATE_TOPIC_ACTIVITY_REQUEST_CODE = 2;
 
-    public static final String EXTRA_DATA_UPDATE_WORD = "extra_word_to_be_updated";
+
     public static final String EXTRA_DATA_UPDATE_TOPIC = "extra_topic_to_be_updated";
     public static final String EXTRA_DATA_ID = "extra_data_id";
     public static final String EXTRA_DATA_DESC = "extra_data_desc";
